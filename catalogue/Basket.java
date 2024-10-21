@@ -2,8 +2,10 @@ package catalogue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -26,6 +28,11 @@ public class Basket extends ArrayList<Product> implements Serializable
   {
     theOrderNum  = 0;
   }
+  
+  public void sort() {
+	  if ( this.size() > 1 ){
+	    	  Collections.sort(this, (p1, p2) -> p1.getProductNum().compareTo(p2.getProductNum()));
+	    }}
   
   /**
    * Set the customers unique order number
@@ -56,8 +63,14 @@ public class Basket extends ArrayList<Product> implements Serializable
   // Will be in the Java doc for Basket
   @Override
   public boolean add( Product pr )
-  {                              
-    return super.add( pr );     // Call add in ArrayList
+  {   
+	 for ( Product prod: this ) {
+		if (prod.getProductNum().equals(pr.getProductNum())) {
+			prod.setQuantity(prod.getQuantity() + 1);
+			return true;
+		} 
+	} 
+	 return super.add( pr );     // Call add in ArrayList
   }
 
   /**
@@ -73,7 +86,7 @@ public class Basket extends ArrayList<Product> implements Serializable
     double total = 0.00;
     if ( theOrderNum != 0 )
       fr.format( "Order number: %03d\n", theOrderNum );
-      
+    this.sort();
     if ( this.size() > 0 )
     {
       for ( Product pr: this )
