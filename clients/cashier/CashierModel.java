@@ -162,7 +162,7 @@ public class CashierModel extends Observable
   }
 
   /**
-   * ask for update of view callled at start of day
+   * ask for update of view called at start of day
    * or after system reset
    */
   public void askForUpdate()

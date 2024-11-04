@@ -64,7 +64,7 @@ public class CashierView implements Observer
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
     pageTitle.setBounds( 110, 0 , 270, 20 );       
-    pageTitle.setText( "Thank You for Shopping at MiniStrore" );                        
+    pageTitle.setText( "Thank You for Shopping at MiniStore" );                        
     cp.add( pageTitle );  
     
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button

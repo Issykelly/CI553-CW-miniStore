@@ -1,5 +1,7 @@
 package clients.customer;
 
+import catalogue.Basket;
+
 /**
  * The Customer Controller
  */
@@ -27,6 +29,19 @@ public class CustomerController
   public void doCheck( String pn )
   {
     model.doCheck(pn);
+  }
+  
+  public void doCheckByName (String name) {
+	  NameToNumber nameToNumber = new NameToNumber();
+	  String pn = nameToNumber.getNumberByName(nameToNumber, name.toLowerCase());
+	  if (pn != null) {
+		  model.doCheck(pn);
+	  } else {
+		  Basket theBasket = model.getBasket();
+		  theBasket.clear();
+		  String theAction = "Unknown product name " + name;
+		  model.setAction(theAction);
+	  }
   }
 
   /**

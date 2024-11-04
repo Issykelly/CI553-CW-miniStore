@@ -106,6 +106,14 @@ public class CustomerModel extends Observable
   }
   
   /**
+   * for setting the action within external classes
+   */
+  public void setAction(String args) {
+	  String theAction = args;
+	  setChanged(); notifyObservers(theAction);
+  }
+  
+  /**
    * Return a picture of the product
    * @return An instance of an ImageIcon
    */ 
