@@ -12,7 +12,9 @@ import debug.DEBUG;
 import middle.StockException;
 import middle.StockReadWriter;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -80,6 +82,41 @@ public class StockRW extends StockR implements StockReadWriter
     {
       throw new StockException( "SQL addStock: " + e.getMessage() );
     }
+  }
+  
+  public synchronized String addProduct(String pd, String pt, String pp, String psl) 
+	  		throws StockException
+	  		{
+	  try {
+		  Statement stmt = getConnectionObject().createStatement(
+		            ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		  ResultSet rs = stmt.executeQuery(
+				    "select productNo " + 
+				    "from ProductTable");
+		  rs.last(); 
+		  int number = Integer.parseInt(rs.getString("productNo"));
+		  String nextNumber = String.format("%04d", number+1);
+		  
+		  float price = Float.parseFloat(pp);
+		  double pslDouble = Double.parseDouble(psl);
+		  
+		  getStatementObject().executeUpdate("insert into ProductTable values ('" +
+                  nextNumber + "', '" + 
+                  pd + "', 'images/pic0000.jpg', " + price +
+                  ", '" + pt + "' )");
+		  
+		  getStatementObject().executeUpdate(           
+				  "insert into StockTable values ('" + 
+		           nextNumber + "', " + 
+		           "" + pslDouble + " " + ")"
+		           ); 
+		  
+		  return nextNumber;
+
+	  } catch ( SQLException e )
+	    {
+	      throw new StockException( "SQL addProduct: " + e.getMessage() );
+	    }
   }
 
 

@@ -12,6 +12,10 @@ import clients.customer.CustomerView;
 import clients.packing.PackingController;
 import clients.packing.PackingModel;
 import clients.packing.PackingView;
+import debug.DEBUG;
+import clients.addProduct.AddProductView;
+import clients.addProduct.AddProductModel;
+import clients.addProduct.AddProductController;
 import middle.LocalMiddleFactory;
 import middle.MiddleFactory;
 import javax.swing.*;
@@ -38,13 +42,14 @@ class Main
    */
   public void begin()
   {
-    //DEBUG.set(true); /* Lots of debug info */
+    DEBUG.set(true); /* Lots of debug info */
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
     startCustomerGUI_MVC( mlf );
     startCashierGUI_MVC( mlf );
     startCashierGUI_MVC( mlf ); // you can create multiple clients
     startPackingGUI_MVC( mlf );
     startBackDoorGUI_MVC( mlf );
+    startAddProductGUI_MVC( mlf );
   }
   
   /**
@@ -130,5 +135,23 @@ class Main
     model.addObserver( view );       // Add observer to the model
     window.setVisible(true);         // Make window visible
   }
+  
+  public void startAddProductGUI_MVC(MiddleFactory mlf )
+  {
+   JFrame  window = new JFrame(); 
+   
+   window.setTitle( "AddProduct Client MVC");
+   window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+   Dimension pos = PosOnScrn.getPos();
+   
+   AddProductView view        = new AddProductView( window, mlf, pos.width, pos.height );
+   AddProductModel model      = new AddProductModel(mlf);
+   AddProductController cont  = new AddProductController( model, view );
+   view.setController( cont );
+   
+   model.addObserver( view );       // Add observer to the model
+   window.setVisible(true);         // Make window visible
+  }
+  
   
 }

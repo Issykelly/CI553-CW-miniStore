@@ -131,6 +131,7 @@ public class CustomerView implements Observer
     {
       thePicture.clear();                  // Clear picture
     } else {
+      System.out.println(image);
       thePicture.set( image );             // Display picture
     }
     theOutput.setText( model.getBasket().getDetails() );

@@ -14,6 +14,8 @@ import middle.StockReader;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -107,6 +109,37 @@ public class StockR implements StockReader
       throw new StockException( "SQL exists: " + e.getMessage() );
     }
   }
+  
+  /**
+   * returns all items number & tags in the stock list
+   * assumes the list is not empty
+   * @return stocks number & tags within a list of lists
+   */
+  public synchronized String[][] nameAndNumber() {
+	  String[][] result = null;
+	  try {
+		  Statement stmt = getConnectionObject().createStatement(
+		            ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		  
+		ResultSet rs = stmt.executeQuery(
+			"select productNo, tags " +
+			"  from ProductTable");
+		
+		rs.last(); 
+        int rowCount = rs.getRow(); 	// count the amount of rows within this table
+        rs.beforeFirst(); 
+        result = new String[rowCount][2];
+
+        // fill the result array using a for loop
+        for (int index = 0; rs.next(); index++) {
+            result[index][0] = rs.getString("productNo");
+            result[index][1] = rs.getString("tags");
+        }
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	  return result;
+  }
 
   /**
    * Returns details about the product in the stock list.
@@ -140,6 +173,55 @@ public class StockR implements StockReader
       throw new StockException( "SQL getDetails: " + e.getMessage() );
     }
   }
+  
+  /**
+   * Returns all of the tags, to be checked for duplicates
+   * @return list of strings, containing tags
+   * @throws StockException 
+   */
+  public synchronized List<String> getTags() 
+		  throws SQLException, StockException {
+	  try {
+		  List<String> result = new ArrayList<>();
+		  ResultSet rs = getStatementObject().executeQuery(
+				    "select tags " + 
+				    "from ProductTable");
+		  
+		  while (rs.next()) {
+			    String Ttag = rs.getString("tags");
+			    if (Ttag != null) {
+			    	for (String tag : Ttag.split(",")) {
+				    	result.add(tag);
+			    }}}
+		  return result;
+		  } catch ( SQLException e){
+		  throw new StockException( "SQL getDetails: " + e.getMessage() );
+	  }
+  }
+  
+  /**
+   * Returns all of the descriptions, to be checked for duplicates
+   * @return list of strings, containing descriptions
+   * @throws StockException 
+   */
+  public synchronized List<String> getDescs() 
+		  throws SQLException, StockException {
+	  try {
+	  List<String> result = new ArrayList<>();
+	  ResultSet rs = getStatementObject().executeQuery(
+			    "select description " + 
+			    "from ProductTable");
+	  
+	  while (rs.next()) {
+		  String Description = rs.getString("Description");
+		  if (Description != null) {
+			    result.add(Description);	
+		  }}	    
+	  return result;
+  } catch (SQLException e) {
+	  throw new StockException( "SQL getDetails: " + e.getMessage() );
+  }}
+  
 
   /**
    * Returns 'image' of the product

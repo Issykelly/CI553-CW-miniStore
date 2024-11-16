@@ -1,5 +1,8 @@
 package clients.customer;
 
+import clients.addProduct.AddProductController;
+import clients.addProduct.AddProductModel;
+import clients.addProduct.AddProductView;
 import clients.customer.CustomerController;
 import clients.customer.CustomerModel;
 import clients.customer.CustomerView;
@@ -7,10 +10,12 @@ import middle.MiddleFactory;
 import middle.Names;
 import middle.RemoteMiddleFactory;
 
+import java.awt.Dimension;
+
 import javax.swing.*;
 
 /**
- * The standalone Customer Client
+ * The stand alone Customer Client
  */
 public class CustomerClient
 {
@@ -37,6 +42,6 @@ public class CustomerClient
     view.setController( cont );
 
     model.addObserver( view );       // Add observer to the model
-    window.setVisible(true);         // Display Scree
+    window.setVisible(true);         // Display Screen
   }
 }

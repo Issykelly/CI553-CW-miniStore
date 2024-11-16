@@ -1,6 +1,7 @@
 package clients.customer;
 
 import catalogue.Basket;
+import middle.StockException;
 
 /**
  * The Customer Controller
@@ -32,16 +33,21 @@ public class CustomerController
   }
   
   public void doCheckByName (String name) {
-	  NameToNumber nameToNumber = new NameToNumber();
-	  String pn = nameToNumber.getNumberByName(nameToNumber, name.toLowerCase());
-	  if (pn != null) {
-		  model.doCheck(pn);
-	  } else {
-		  Basket theBasket = model.getBasket();
-		  theBasket.clear();
-		  String theAction = "Unknown product name " + name;
-		  model.setAction(theAction);
-	  }
+	  NameToNumber nameToNumber;
+	try {
+		nameToNumber = new NameToNumber();
+		String pn = nameToNumber.getNumberByName(nameToNumber, name.toLowerCase());
+		  if (pn != null) {
+			  model.doCheck(pn);
+		  } else {
+			  Basket theBasket = model.getBasket();
+			  theBasket.clear();
+			  String theAction = "Unknown product name " + name;
+			  model.setAction(theAction);
+		  }
+	} catch (StockException e) {
+		e.printStackTrace();
+	}
   }
 
   /**

@@ -4,6 +4,9 @@ import middle.MiddleFactory;
 import middle.StockReadWriter;
 
 import javax.swing.*;
+
+import clients.addProduct.AddProductController;
+
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -32,7 +35,7 @@ public class BackDoorView implements Observer
   private final JButton     theBtQuery = new JButton( QUERY );
   
   private StockReadWriter theStock     = null;
-  private BackDoorController cont= null;
+  private BackDoorController cont = null;
 
   /**
    * Construct the view
@@ -50,6 +53,8 @@ public class BackDoorView implements Observer
     {
       System.out.println("Exception: " + e.getMessage() );
     }
+    
+    
     Container cp         = rpc.getContentPane();    // Content Pane
     Container rootWindow = (Container) rpc;         // Root Window
     cp.setLayout(null);                             // No layout manager
