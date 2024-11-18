@@ -198,5 +198,37 @@ public class CashierModel extends Observable
   {
     return new Basket();
   }
-}
+
+public void doRemoveCheck(String pn, String pq1) {
+    String theAction = "";
+    pn  = pn.trim();                    // Product no.
+    try {
+    	pq = Integer.valueOf(pq1);                         //  & quantity
+    } catch (NumberFormatException e) {
+    	pq = 1;
+    }
+    try {
+        if ( theStock.exists( pn ) )              // Stock Exists?
+        {                                         // T
+          Product pr = theStock.getDetails(pn);   //  Get details
+          theProduct = pr;                      //   Remember prod.
+          makeBasketIfReq();
+          for (Product products : theBasket) {
+        	  if (products.getProductNum().equals(pn)) {
+        		  theBasket.doRemove(products, pq);
+        		  theStock.addStock(pn, pq);
+        		  break;
+        	  } else {
+        		  theAction = "product not in basket";
+        	  }
+          }
+        	  theAction = "Removed " +            //    details
+                      theProduct.getDescription();  //
+          setChanged(); notifyObservers(theAction);
+	
+}}catch ( StockException e )
+    {
+    DEBUG.error( "Comms failure\n" +
+                 "CashierModel.makeBasket()\n%s", e.getMessage() );
+  }}}
   

@@ -42,7 +42,7 @@ class Main
    */
   public void begin()
   {
-    DEBUG.set(true); /* Lots of debug info */
+    //DEBUG.set(true); /* Lots of debug info */
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
     startCustomerGUI_MVC( mlf );
     startCashierGUI_MVC( mlf );

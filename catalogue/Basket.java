@@ -72,6 +72,25 @@ public class Basket extends ArrayList<Product> implements Serializable
 	} 
 	 return super.add( pr );     // Call add in ArrayList
   }
+  
+  public boolean doRemove( Product pr, int tr)
+  {   
+	 for ( Product prod: this ) {
+         int currentQuantity = prod.getQuantity();
+         int removeQuantity = tr;
+         if (prod.getProductNum().equals(pr.getProductNum())) {
+	         if (currentQuantity >= removeQuantity) {
+	             prod.setQuantity(currentQuantity - removeQuantity);
+	             System.out.println(String.valueOf(currentQuantity) + String.valueOf(removeQuantity));
+	             if (prod.getQuantity() == 0) {
+	            	 this.remove(prod);
+	            	 return true; 
+	         }}
+	        	 }
+		} 
+	 return true; 
+	}
+  
 
   /**
    * Returns a description of the products in the basket suitable for printing.
