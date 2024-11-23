@@ -20,6 +20,7 @@ public class BackDoorView implements Observer
   private static final String RESTOCK  = "Add";
   private static final String CLEAR    = "Clear";
   private static final String QUERY    = "Query";
+  private static final String UPDATE    = "Update";
  
   private static final int H = 300;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
@@ -33,6 +34,7 @@ public class BackDoorView implements Observer
   private final JButton     theBtClear = new JButton( CLEAR );
   private final JButton     theBtRStock = new JButton( RESTOCK );
   private final JButton     theBtQuery = new JButton( QUERY );
+  private final JButton     theBtUpdate = new JButton( UPDATE );
   
   private StockReadWriter theStock     = null;
   private BackDoorController cont = null;
@@ -60,6 +62,7 @@ public class BackDoorView implements Observer
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
+    BackDoorModel model  = new BackDoorModel(mf);
     
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
@@ -83,6 +86,10 @@ public class BackDoorView implements Observer
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas
 
+    theBtUpdate.setBounds( 16, 25+60*3, 80, 40 );   // Check Button
+    theBtUpdate.addActionListener(                  // Call back code
+      e -> theOutput.setText(model.checkStock()));
+    cp.add( theBtUpdate );                          //  Add to canvas
  
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
@@ -97,7 +104,7 @@ public class BackDoorView implements Observer
     cp.add( theInputNo );                           //  Add to canvas
 
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
-    theOutput.setText( "" );                        //  Blank
+    theOutput.setText(model.checkStock());                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas
     theSP.getViewport().add( theOutput );           //  In TextArea
@@ -123,6 +130,7 @@ public class BackDoorView implements Observer
     theAction.setText( message );
     
     theOutput.setText( model.getBasket().getDetails() );
+    theOutput.append( model.checkStock());
     theInput.requestFocus();
   }
 

@@ -2,11 +2,16 @@ package clients.backDoor;
 
 import catalogue.Basket;
 import catalogue.Product;
+import dbAccess.StockRW;
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.StockException;
 import middle.StockReadWriter;
+import clients.backDoor.BackDoorView;
+import dbAccess.StockR;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -127,6 +132,25 @@ public class BackDoorModel extends Observable
       theAction = e.getMessage();
     }
     setChanged(); notifyObservers(theAction);
+  }
+  
+  public String checkStock()
+  {
+	  String Display = "";
+	  try {
+		
+		StockR db = new StockR();
+		List<String[]> result = db.getLowStocks();
+		if (!result.isEmpty()) {
+			for (String[] item : result) {
+				Product pr = theStock.getDetails( item[0] );
+				Display += pr.getDescription() + " (" + item[0] +") is low with only " + item[1] + " left! \n";
+			}
+		}
+	} catch (StockException | SQLException e) {
+		e.printStackTrace();
+	}
+	  return Display;
   }
 
   /**

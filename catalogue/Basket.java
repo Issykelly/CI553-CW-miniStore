@@ -81,7 +81,6 @@ public class Basket extends ArrayList<Product> implements Serializable
          if (prod.getProductNum().equals(pr.getProductNum())) {
 	         if (currentQuantity >= removeQuantity) {
 	             prod.setQuantity(currentQuantity - removeQuantity);
-	             System.out.println(String.valueOf(currentQuantity) + String.valueOf(removeQuantity));
 	             if (prod.getQuantity() == 0) {
 	            	 this.remove(prod);
 	            	 return true; 

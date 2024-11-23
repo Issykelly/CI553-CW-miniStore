@@ -2,6 +2,7 @@ package clients.cashier;
 
 import catalogue.Basket;
 import catalogue.Product;
+import clients.backDoor.BackDoorModel;
 import debug.DEBUG;
 import middle.*;
 
@@ -23,6 +24,8 @@ public class CashierModel extends Observable
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
+  
+  private BackDoorModel Backdoor = null;
 
   /**
    * Construct the model of the Cashier
@@ -130,6 +133,7 @@ public class CashierModel extends Observable
       theAction = e.getMessage();
     }
     theState = State.process;                   // All Done
+    
     setChanged(); notifyObservers(theAction);
   }
   

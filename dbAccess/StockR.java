@@ -222,6 +222,28 @@ public class StockR implements StockReader
 	  throw new StockException( "SQL getDetails: " + e.getMessage() );
   }}
   
+  public synchronized List<String[]> getLowStocks()
+  		throws SQLException {
+	  try {
+		  List<String[]> result = new ArrayList<>();
+		  ResultSet rs = getStatementObject().executeQuery(
+				    "select productNo, stockLevel " + 
+				    "from StockTable " +
+				    "where stockLevel < 5");
+		  
+		  while (rs.next()) {
+			  String ProductNo = rs.getString("productNo");
+			  String ProductStock = rs.getString("stockLevel");
+			  if (ProductNo != null) {
+				  	String[] addResults = {ProductNo, ProductStock};
+				    result.add(addResults);	
+			  }
+			  }	return result;
+	  }catch (SQLException e) {
+		  throw new SQLException( "SQL getLowStocks: " + e.getMessage() );
+	  }
+  }
+  
 
   /**
    * Returns 'image' of the product
