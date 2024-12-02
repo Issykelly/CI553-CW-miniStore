@@ -219,15 +219,20 @@ public void doRemoveCheck(String pn, String pq1) {
           makeBasketIfReq();
           for (Product products : theBasket) {
         	  if (products.getProductNum().equals(pn)) {
-        		  theBasket.doRemove(products, pq);
-        		  theStock.addStock(pn, pq);
-        		  break;
+        		  if (pq <= products.getQuantity()) {
+        			  theBasket.doRemove(products, pq);
+            		  theStock.addStock(pn, pq);
+            		  break;
+        		  } else {
+        			  theAction = "not enough product in basket";
+        		  }
         	  } else {
         		  theAction = "product not in basket";
         	  }
+          } if (theAction == "") {
+        	  theAction = "Removed " +     	 //    details
+              theProduct.getDescription();  //
           }
-        	  theAction = "Removed " +            //    details
-                      theProduct.getDescription();  //
           setChanged(); notifyObservers(theAction);
 	
 }}catch ( StockException e )
