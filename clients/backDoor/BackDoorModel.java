@@ -144,7 +144,11 @@ public class BackDoorModel extends Observable
 		if (!result.isEmpty()) {
 			for (String[] item : result) {
 				Product pr = theStock.getDetails( item[0] );
-				Display += pr.getDescription() + " (" + item[0] +") is low with only " + item[1] + " left! \n";
+				if (Integer.valueOf(item[1]) == 0) {
+					Display += pr.getDescription() + " (" + item[0] +") is completely out of stock! \n";
+				} else {
+					Display += pr.getDescription() + " (" + item[0] +") is low with only " + item[1] + " left! \n";
+				}
 			}
 		}
 	} catch (StockException | SQLException e) {

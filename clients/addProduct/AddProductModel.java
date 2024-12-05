@@ -89,7 +89,7 @@ public class AddProductModel extends Observable {
 			  db = new StockRW();
 			  if ( theState != State.checked )          // Not checked
 		      {                                         //  with customer
-		        theAction = "please check its availablity";
+		        theAction = "please check its validity";
 		      } else {
 		    	  String prodNo = db.addProduct(pd, pt, pp, psl);
 		    	  theAction = "product added with number; " + prodNo;
