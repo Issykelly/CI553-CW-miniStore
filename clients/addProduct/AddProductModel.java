@@ -39,6 +39,13 @@ public class AddProductModel extends Observable {
 	    theState   = State.process;                  // Current state
 	  }
 	  
+	  /**
+	   * check the product is valid before adding 
+	   * @param pd product description
+	   * @param pt product tags
+	   * @param pp product price
+	   * @param psl product stock level
+	   */
 	  public void doCheck (String pd, String pt, String pp, String psl) {
 		  String theAction = "";
 		  StockR db;
@@ -82,6 +89,13 @@ public class AddProductModel extends Observable {
 		  setChanged(); notifyObservers(theAction);
 	  }
 	  
+	  /**
+	   * add the product to the database
+	   * @param pd product description
+	   * @param pt product tags
+	   * @param pp product price
+	   * @param psl product stock level
+	   */
 	  public void addProduct (String pd, String pt, String pp, String psl) {
 		  String theAction = "";
 		  StockRW db;
@@ -104,6 +118,10 @@ public class AddProductModel extends Observable {
 		    setChanged(); notifyObservers(theAction);
 		  }
 	  
+	  /**
+	   * Check if a string is numeric
+	   * @param str String to be checked
+	   */
 	  public static boolean isNumeric(String str) { 
 		  try {  
 		    Float.parseFloat(str);  

@@ -134,6 +134,9 @@ public class BackDoorModel extends Observable
     setChanged(); notifyObservers(theAction);
   }
   
+  /**
+   * check if any stock is low
+   */
   public String checkStock()
   {
 	  String Display = "";
