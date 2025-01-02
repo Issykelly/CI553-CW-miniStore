@@ -29,9 +29,20 @@ import java.awt.*;
  * @author  Shine University of Brighton
  * @version year-2024
  */
-
-class Main
+public class Main
 {
+	
+    /**
+     * Default constructor for the Main class.
+     */
+    public Main() {
+        // Default constructor
+    }
+    
+	  /**
+	   * constructor
+	   * @param args generic 
+	   */
   public static void main (String args[])
   {
     new Main().begin();
@@ -136,6 +147,10 @@ class Main
     window.setVisible(true);         // Make window visible
   }
   
+  /**
+   * add product mlf
+   * @param mlf A factory to create objects to access the stock list
+   */
   public void startAddProductGUI_MVC(MiddleFactory mlf )
   {
    JFrame  window = new JFrame(); 
